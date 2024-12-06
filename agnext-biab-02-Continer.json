@@ -362,7 +362,7 @@
           },
           "containers": [
             {
-              "image": "biabmaacrsp7yn47y7xbhk.azurecr.io/biab:latest",
+              "image": "biabcontainerreg.azurecr.io/biabbackend:dev",
               "name": "democontainer",
               "env": [
                 {
