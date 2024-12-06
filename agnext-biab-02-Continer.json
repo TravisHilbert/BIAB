@@ -262,7 +262,7 @@
       "existing": true,
       "type": "Microsoft.ContainerRegistry/registries",
       "apiVersion": "2023-04-01",
-      "name": "yourAcrName"
+      "name": "biabmaacrsp7yn47y7xbhk"
     },
     "pullIdentity": {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
@@ -279,7 +279,7 @@
     "roleAssignment": {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2022-04-01",
-      "name": "[guid(resourceId('Microsoft.ContainerRegistry/registries', 'yourAcrName'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')), resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))]",
+      "name": "[guid(resourceId('Microsoft.ContainerRegistry/registries', 'biabmaacrsp7yn47y7xbhk'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')), resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))]",
       "properties": {
         "principalId": "[reference('pullIdentity').principalId]",
         "principalType": "ServicePrincipal",
