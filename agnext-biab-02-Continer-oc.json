@@ -442,7 +442,7 @@
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format('{0}-frontend-plan', parameters('prefix')))]",
         "reserved": true,
         "siteConfig": {
-          "linuxFxVersion": "DOCKER|nginx:latest",
+          "linuxFxVersion": "DOCKER|biabcontainerreg.azurecr.io/biabfrontend:dev",
           "appSettings": [
             {
               "name": "DOCKER_REGISTRY_SERVER_URL",
