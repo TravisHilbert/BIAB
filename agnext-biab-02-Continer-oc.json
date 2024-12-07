@@ -366,7 +366,7 @@
           "containers": [
             {
               "name": "backend",
-              "image": "biabcontainerreg.azurecr.io/backend:dev",
+              "image": "biabcontainerreg.azurecr.io/biabbackend:dev",
               "resources": {
                 "cpu": "[json(parameters('resourceSize').containerAppSize.cpu)]",
                 "memory": "[parameters('resourceSize').containerAppSize.memory]"
