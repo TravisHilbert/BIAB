@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.31.92.45157",
-      "templateHash": "17825663713514654338"
+      "templateHash": "15453652685096783059"
     }
   },
   "parameters": {
@@ -263,7 +263,7 @@
       "existing": true,
       "type": "Microsoft.ContainerRegistry/registries",
       "apiVersion": "2023-04-01",
-      "name": "biabcontainerreg"
+      "name": "yourAcrName"
     },
     "pullIdentity": {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
@@ -280,7 +280,7 @@
     "roleAssignment": {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2022-04-01",
-      "name": "[guid(resourceId('Microsoft.ContainerRegistry/registries', 'biabcontainerreg'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')), resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))]",
+      "name": "[guid(resourceId('Microsoft.ContainerRegistry/registries', 'yourAcrName'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')), resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))]",
       "properties": {
         "principalId": "[reference('pullIdentity').principalId]",
         "principalType": "ServicePrincipal",
@@ -399,10 +399,6 @@
                 {
                   "name": "VISITOR_PASSWORD",
                   "value": "[parameters('visitorPassword')]"
-                },
-                {
-                  "name": "DEV_BYPASS_AUTH",
-                  "value": "true"
                 }
               ]
             }
@@ -422,7 +418,7 @@
     "frontendAppServicePlan": {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2021-02-01",
-      "name": "[format('{0}-frontend-plan', parameters('prefix'))]",
+      "name": "[format(variables('uniqueNameFormat'), 'frontend-plan')]",
       "location": "[parameters('location')]",
       "tags": "[parameters('tags')]",
       "sku": {
@@ -438,15 +434,15 @@
     "frontendAppService": {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2021-02-01",
-      "name": "[format('{0}-frontend', parameters('prefix'))]",
+      "name": "[format(variables('uniqueNameFormat'), 'frontend')]",
       "location": "[parameters('location')]",
       "tags": "[parameters('tags')]",
       "kind": "app,linux,container",
       "properties": {
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format('{0}-frontend-plan', parameters('prefix')))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format(variables('uniqueNameFormat'), 'frontend-plan'))]",
         "reserved": true,
         "siteConfig": {
-          "linuxFxVersion": "DOCKER|biabcontainerreg.azurecr.io/biabfrontend:dev",
+          "linuxFxVersion": "DOCKER|nginx:latest",
           "appSettings": [
             {
               "name": "DOCKER_REGISTRY_SERVER_URL",
