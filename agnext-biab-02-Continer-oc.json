@@ -464,9 +464,9 @@
               "name": "WEBSITES_CONTAINER_START_TIME_LIMIT",
               "value": "1800"
             },
-            {
-              "name": "BACKEND_API_URL",
-              "value": "[format('https://{0}', reference('containerApp').configuration.ingress.fqdn)]"
+             {
+              "name": "FRONTEND_SITE_NAME",
+              "value": "[format('https://{0}.azurewebsites.net', format(variables('uniqueNameFormat'), 'frontend'))]"
             }
           ]
         }
