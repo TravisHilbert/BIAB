@@ -463,9 +463,16 @@
           ]
         }
       },
+      "identity": {
+        "type": "SystemAssigned,UserAssigned",
+        "userAssignedIdentities": {
+          "[format('{0}', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')))]": {}
+        }
+      },
       "dependsOn": [
         "containerApp",
-        "frontendAppServicePlan"
+        "frontendAppServicePlan",
+        "pullIdentity"
       ]
     }
   },
