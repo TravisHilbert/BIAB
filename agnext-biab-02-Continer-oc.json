@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.31.92.45157",
-      "templateHash": "15453652685096783059"
+      "templateHash": "13775284561358487536"
     }
   },
   "parameters": {
@@ -334,7 +334,7 @@
       "location": "[parameters('location')]",
       "tags": "[parameters('tags')]",
       "identity": {
-        "type": "SystemAssigned,UserAssigned",
+        "type": "SystemAssigned, UserAssigned",
         "userAssignedIdentities": {
           "[format('{0}', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')))]": {}
         }
@@ -403,6 +403,10 @@
                 {
                   "name": "DEV_BYPASS_AUTH",
                   "value": "true"
+                },
+                {
+                  "name": "FRONTEND_SITE_NAME",
+                  "value": "[format('{0}.azurewebsites.net', format(variables('uniqueNameFormat'), 'frontend'))]"
                 }
               ]
             }
