@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.31.92.45157",
-      "templateHash": "9192706438854017940"
+      "templateHash": "12423632132089741218"
     }
   },
   "parameters": {
@@ -263,6 +263,7 @@
       "existing": true,
       "type": "Microsoft.ContainerRegistry/registries",
       "apiVersion": "2023-04-01",
+      "resourceGroup": "rg-biab-official",
       "name": "biabcontainerreg"
     },
     "pullIdentity": {
@@ -280,7 +281,7 @@
     "roleAssignment": {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2022-04-01",
-      "name": "[guid(resourceId('Microsoft.ContainerRegistry/registries', 'biabcontainerreg'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')), resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))]",
+      "name": "[guid(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, 'rg-biab-official'), 'Microsoft.ContainerRegistry/registries', 'biabcontainerreg'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')), resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))]",
       "properties": {
         "principalId": "[reference('pullIdentity').principalId]",
         "principalType": "ServicePrincipal",
