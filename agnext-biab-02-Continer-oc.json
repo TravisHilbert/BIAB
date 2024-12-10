@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.31.92.45157",
-      "templateHash": "5144748179396067582"
+      "templateHash": "1148342813599354462"
     }
   },
   "parameters": {
@@ -22,6 +22,27 @@
       "defaultValue": "EastUS",
       "metadata": {
         "description": "Location for OpenAI resources."
+      }
+    },
+    "dockerRegistryUrl": {
+      "type": "string",
+      "defaultValue": "https://biabcontainerreg.azurecr.io",
+      "metadata": {
+        "description": "URL for docker image registry"
+      }
+    },
+    "frontendDockerImageURL": {
+      "type": "string",
+      "defaultValue": "biabcontainerreg.azurecr.io/biabfrontend:dev",
+      "metadata": {
+        "description": "URL for frontend docker image"
+      }
+    },
+    "backendDockerImageURL": {
+      "type": "string",
+      "defaultValue": "biabcontainerreg.azurecr.io/biabbackend:dev",
+      "metadata": {
+        "description": "URl for the backend docker image"
       }
     },
     "prefix": {
@@ -329,7 +350,7 @@
           "containers": [
             {
               "name": "backend",
-              "image": "biabcontainerreg.azurecr.io/biabbackend:dev",
+              "image": "[parameters('backendDockerImageURL')]",
               "resources": {
                 "cpu": "[json(parameters('resourceSize').containerAppSize.cpu)]",
                 "memory": "[parameters('resourceSize').containerAppSize.memory]"
@@ -412,11 +433,11 @@
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format(variables('uniqueNameFormat'), 'frontend-plan'))]",
         "reserved": true,
         "siteConfig": {
-          "linuxFxVersion": "DOCKER|biabcontainerreg.azurecr.io/biabfrontend:dev",
+          "linuxFxVersion": "[parameters('frontendDockerImageURL')]",
           "appSettings": [
             {
               "name": "DOCKER_REGISTRY_SERVER_URL",
-              "value": "https://biabcontainerreg.azurecr.io"
+              "value": "[parameters('dockerRegistryUrl')]"
             },
             {
               "name": "WEBSITES_PORT",
