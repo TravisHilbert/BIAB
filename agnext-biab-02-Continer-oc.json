@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.31.92.45157",
-      "templateHash": "12423632132089741218"
+      "templateHash": "5144748179396067582"
     }
   },
   "parameters": {
@@ -29,20 +29,6 @@
       "defaultValue": "biab",
       "metadata": {
         "description": "A prefix to add to the start of all resource names. Note: A \"unique\" suffix will also be added"
-      }
-    },
-    "containerImageNameTag": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "The container image name and tag to deploy to the container app, if this is not set the container app just default to an empty image"
-      }
-    },
-    "visitorPassword": {
-      "type": "securestring",
-      "defaultValue": "AIABDemo",
-      "metadata": {
-        "description": "The visitor code/password that must be provided to access the container app. If left as-is, a new password will be generated and output. If this is set to empty a new code will be generated on each restart."
       }
     },
     "tags": {
@@ -96,9 +82,7 @@
   },
   "variables": {
     "uniqueNameFormat": "[format('{0}-{{0}}-{1}', parameters('prefix'), uniqueString(resourceGroup().id, parameters('prefix')))]",
-    "uniqueShortNameFormat": "[format('{0}{{0}}{1}', toLower(parameters('prefix')), uniqueString(resourceGroup().id, parameters('prefix')))]",
-    "aoaiApiVersion": "2024-08-01-preview",
-    "emptyContainerImage": "alpine:latest"
+    "aoaiApiVersion": "2024-08-01-preview"
   },
   "resources": {
     "openai::gpt4o": {
@@ -259,39 +243,11 @@
         ]
       }
     },
-    "existingAcr": {
-      "existing": true,
-      "type": "Microsoft.ContainerRegistry/registries",
-      "apiVersion": "2023-04-01",
-      "resourceGroup": "rg-biab-official",
-      "name": "biabcontainerreg"
-    },
     "pullIdentity": {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2023-07-31-preview",
       "name": "[format(variables('uniqueNameFormat'), 'containerapp-pull')]",
       "location": "[parameters('location')]"
-    },
-    "acrPullDefinition": {
-      "existing": true,
-      "type": "Microsoft.Authorization/roleDefinitions",
-      "apiVersion": "2022-05-01-preview",
-      "name": "7f951dda-4ed3-4680-a7ca-43fe172d538d"
-    },
-    "roleAssignment": {
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2022-04-01",
-      "name": "[guid(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, 'rg-biab-official'), 'Microsoft.ContainerRegistry/registries', 'biabcontainerreg'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')), resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))]",
-      "properties": {
-        "principalId": "[reference('pullIdentity').principalId]",
-        "principalType": "ServicePrincipal",
-        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')]"
-      },
-      "dependsOn": [
-        "acrPullDefinition",
-        "existingAcr",
-        "pullIdentity"
-      ]
     },
     "containerAppEnv": {
       "type": "Microsoft.App/managedEnvironments",
