@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.31.92.45157",
-      "templateHash": "12553381049602870284"
+      "templateHash": "9192706438854017940"
     }
   },
   "parameters": {
@@ -80,12 +80,12 @@
         }
       },
       "defaultValue": {
-        "gpt4oCapacity": 15,
-        "cosmosThroughput": 400,
+        "gpt4oCapacity": 50,
+        "cosmosThroughput": 1000,
         "containerAppSize": {
-          "cpu": "1.0",
-          "memory": "2.0Gi",
-          "minReplicas": 0,
+          "cpu": "2.0",
+          "memory": "4.0Gi",
+          "minReplicas": 1,
           "maxReplicas": 1
         }
       },
@@ -401,10 +401,6 @@
                 {
                   "name": "AZURE_OPENAI_API_VERSION",
                   "value": "[variables('aoaiApiVersion')]"
-                },
-                {
-                  "name": "VISITOR_PASSWORD",
-                  "value": "[parameters('visitorPassword')]"
                 },
                 {
                   "name": "DEV_BYPASS_AUTH",
