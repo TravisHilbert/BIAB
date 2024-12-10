@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.31.92.45157",
-      "templateHash": "13775284561358487536"
+      "templateHash": "12553381049602870284"
     }
   },
   "parameters": {
@@ -263,7 +263,7 @@
       "existing": true,
       "type": "Microsoft.ContainerRegistry/registries",
       "apiVersion": "2023-04-01",
-      "name": "biabcontainerreg"
+      "name": "yourAcrName"
     },
     "pullIdentity": {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
@@ -280,7 +280,7 @@
     "roleAssignment": {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2022-04-01",
-      "name": "[guid(resourceId('Microsoft.ContainerRegistry/registries', 'biabcontainerreg'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')), resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))]",
+      "name": "[guid(resourceId('Microsoft.ContainerRegistry/registries', 'yourAcrName'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format(variables('uniqueNameFormat'), 'containerapp-pull')), resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))]",
       "properties": {
         "principalId": "[reference('pullIdentity').principalId]",
         "principalType": "ServicePrincipal",
@@ -344,7 +344,13 @@
         "configuration": {
           "ingress": {
             "targetPort": 8000,
-            "external": true
+            "external": true,
+            "corsPolicy": {
+              "allowedOrigins": [
+                "[format('https://{0}.azurewebsites.net', format(variables('uniqueNameFormat'), 'frontend'))]",
+                "[format('http://{0}.azurewebsites.net', format(variables('uniqueNameFormat'), 'frontend'))]"
+              ]
+            }
           },
           "activeRevisionsMode": "Single"
         },
@@ -406,7 +412,7 @@
                 },
                 {
                   "name": "FRONTEND_SITE_NAME",
-                  "value": "[format('{0}.azurewebsites.net', format(variables('uniqueNameFormat'), 'frontend'))]"
+                  "value": "[format('https://{0}.azurewebsites.net', format(variables('uniqueNameFormat'), 'frontend'))]"
                 }
               ]
             }
@@ -421,7 +427,10 @@
         "cosmos::autogenDb::memoryContainer",
         "openai",
         "pullIdentity"
-      ]
+      ],
+      "metadata": {
+        "description": ""
+      }
     },
     "frontendAppServicePlan": {
       "type": "Microsoft.Web/serverfarms",
@@ -464,9 +473,9 @@
               "name": "WEBSITES_CONTAINER_START_TIME_LIMIT",
               "value": "1800"
             },
-             {
-              "name": "FRONTEND_SITE_NAME",
-              "value": "[format('https://{0}.azurewebsites.net', format(variables('uniqueNameFormat'), 'frontend'))]"
+            {
+              "name": "BACKEND_API_URL",
+              "value": "[format('https://{0}', reference('containerApp').configuration.ingress.fqdn)]"
             }
           ]
         }
