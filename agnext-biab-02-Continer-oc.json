@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.31.92.45157",
-      "templateHash": "15391407828648512767"
+      "templateHash": "3706710549950020392"
     }
   },
   "parameters": {
@@ -433,7 +433,7 @@
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format(variables('uniqueNameFormat'), 'frontend-plan'))]",
         "reserved": true,
         "siteConfig": {
-          "linuxFxVersion": "DOCKER|frontendDockerImageURL",
+          "linuxFxVersion": "[format('DOCKER|{0}', parameters('frontendDockerImageURL'))]",
           "appSettings": [
             {
               "name": "DOCKER_REGISTRY_SERVER_URL",
