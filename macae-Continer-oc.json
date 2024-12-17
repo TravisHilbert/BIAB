@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.32.4.45862",
-      "templateHash": "11794078798176785059"
+      "templateHash": "8360472158556304031"
     }
   },
   "parameters": {
@@ -33,21 +33,21 @@
     },
     "frontendDockerImageURL": {
       "type": "string",
-      "defaultValue": "biabcontainerreg.azurecr.io/biabfrontend:dev",
+      "defaultValue": "biabcontainerreg.azurecr.io/macaefrontend:dev",
       "metadata": {
         "description": "URL for frontend docker image"
       }
     },
     "backendDockerImageURL": {
       "type": "string",
-      "defaultValue": "biabcontainerreg.azurecr.io/biabbackend:dev",
+      "defaultValue": "biabcontainerreg.azurecr.io/macaebackend:dev",
       "metadata": {
         "description": "URl for the backend docker image"
       }
     },
     "prefix": {
       "type": "string",
-      "defaultValue": "biab",
+      "defaultValue": "macae",
       "metadata": {
         "description": "A prefix to add to the start of all resource names. Note: A \"unique\" suffix will also be added"
       }
