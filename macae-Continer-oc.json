@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.32.4.45862",
-      "templateHash": "8360472158556304031"
+      "templateHash": "5474415242615189405"
     }
   },
   "parameters": {
@@ -22,27 +22,6 @@
       "defaultValue": "EastUS",
       "metadata": {
         "description": "Location for OpenAI resources."
-      }
-    },
-    "dockerRegistryUrl": {
-      "type": "string",
-      "defaultValue": "https://biabcontainerreg.azurecr.io",
-      "metadata": {
-        "description": "URL for docker image registry"
-      }
-    },
-    "frontendDockerImageURL": {
-      "type": "string",
-      "defaultValue": "biabcontainerreg.azurecr.io/macaefrontend:dev",
-      "metadata": {
-        "description": "URL for frontend docker image"
-      }
-    },
-    "backendDockerImageURL": {
-      "type": "string",
-      "defaultValue": "biabcontainerreg.azurecr.io/macaebackend:dev",
-      "metadata": {
-        "description": "URl for the backend docker image"
       }
     },
     "prefix": {
@@ -102,6 +81,10 @@
     }
   },
   "variables": {
+    "appVersion": "latest",
+    "dockerRegistryUrl": "https://biabcontainerreg.azurecr.io",
+    "backendDockerImageURL": "[format('biabcontainerreg.azurecr.io/macaebackend:{0}', variables('appVersion'))]",
+    "frontendDockerImageURL": "[format('biabcontainerreg.azurecr.io/macaefrontend:{0}', variables('appVersion'))]",
     "uniqueNameFormat": "[format('{0}-{{0}}-{1}', parameters('prefix'), uniqueString(resourceGroup().id, parameters('prefix')))]",
     "aoaiApiVersion": "2024-08-01-preview"
   },
@@ -349,7 +332,7 @@
           "containers": [
             {
               "name": "backend",
-              "image": "[parameters('backendDockerImageURL')]",
+              "image": "[variables('backendDockerImageURL')]",
               "resources": {
                 "cpu": "[json(parameters('resourceSize').containerAppSize.cpu)]",
                 "memory": "[parameters('resourceSize').containerAppSize.memory]"
@@ -432,11 +415,11 @@
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format(variables('uniqueNameFormat'), 'frontend-plan'))]",
         "reserved": true,
         "siteConfig": {
-          "linuxFxVersion": "[format('DOCKER|{0}', parameters('frontendDockerImageURL'))]",
+          "linuxFxVersion": "[format('DOCKER|{0}', variables('frontendDockerImageURL'))]",
           "appSettings": [
             {
               "name": "DOCKER_REGISTRY_SERVER_URL",
-              "value": "[parameters('dockerRegistryUrl')]"
+              "value": "[variables('dockerRegistryUrl')]"
             },
             {
               "name": "WEBSITES_PORT",
