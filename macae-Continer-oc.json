@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.32.4.45862",
-      "templateHash": "5474415242615189405"
+      "templateHash": "13409532170922983631"
     }
   },
   "parameters": {
@@ -82,9 +82,10 @@
   },
   "variables": {
     "appVersion": "latest",
-    "dockerRegistryUrl": "https://biabcontainerreg.azurecr.io",
-    "backendDockerImageURL": "[format('biabcontainerreg.azurecr.io/macaebackend:{0}', variables('appVersion'))]",
-    "frontendDockerImageURL": "[format('biabcontainerreg.azurecr.io/macaefrontend:{0}', variables('appVersion'))]",
+    "resgistryName": "biabcontainerreg",
+    "dockerRegistryUrl": "[format('https://{0}.azurecr.io', variables('resgistryName'))]",
+    "backendDockerImageURL": "[format('{0}.azurecr.io/macaebackend:{1}', variables('resgistryName'), variables('appVersion'))]",
+    "frontendDockerImageURL": "[format('{0}.azurecr.io/macaefrontend:{1}', variables('resgistryName'), variables('appVersion'))]",
     "uniqueNameFormat": "[format('{0}-{{0}}-{1}', parameters('prefix'), uniqueString(resourceGroup().id, parameters('prefix')))]",
     "aoaiApiVersion": "2024-08-01-preview"
   },
